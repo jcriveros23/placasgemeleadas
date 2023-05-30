@@ -57,7 +57,7 @@ with open("placas_cortadas.names", "r") as f:
 #------------------------------COLOR--------------------------------------#
 img_size = (64, 64)
 model = load_model('DNN.h5')
-color_names = ["Blanco", "Gris", "Negro", "Rojo", "Amarillo", "Azul", "Verde", "Cafe"]
+color_names = ["Blanco", "Gris", "Negro", "Rojo", "Amarillo", "Azul", "Verde", "Marron"]
 #-------------------------------------------------------------------------#
 #------------------------------ESTADOS------------------------------------#
 class State(enum.Enum):
@@ -209,7 +209,7 @@ def main(video_path,image_queue,ui):
 
     for frame_index, frame in enumerate(frames):
         cont+=1
-        
+        fluxo = time.time()
         
         if ui.stop_processing:
             return detections, all_cropped_images
@@ -235,7 +235,7 @@ def main(video_path,image_queue,ui):
             Nfails=0
             for i, (numero_caracteres) in enumerate( numero_caracteres_list.copy()):
             
-                if numero_caracteres < 6:
+                if numero_caracteres != 6:
                     
                     del license_plate_list[i-Nfails]
                     del numero_caracteres_list[i-Nfails]
@@ -274,6 +274,9 @@ def main(video_path,image_queue,ui):
         image_queue.put(("main", image2)) # Agregar la imagen a la cola en lugar de actualizar la GUI directamente
         #image_label2.config(image=image2)
         #image_label2.image = image2 
+        #print("FPS: ", 1.0 / (time.time() - fluxo))
+        fps=1.0 / (time.time() - fluxo)
+        ui.fps_label.config(text=f'FPS: {fps:.2f}')
         
         
     #print(detections)

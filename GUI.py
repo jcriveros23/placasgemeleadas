@@ -92,6 +92,8 @@ class Application(tk.Frame):
         # Clear text and labels
         self.output_text.delete('1.0', tk.END)
         self.video_label.config(text="")
+        self.fps_label.config(text="")
+        self.alert_label.config(text="")
         self.image_label.config(image=self.default_image)   
         self.image_label.image = self.default_image
         self.image_label2.config(image=self.default_image2)
